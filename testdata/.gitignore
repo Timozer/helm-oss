@@ -1,0 +1,5 @@
+# For test named TestHelmDependencyUpdate
+bar/charts/*
+
+# test GPG keyring (generated)
+gnupg/

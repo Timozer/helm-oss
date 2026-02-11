@@ -1,0 +1,177 @@
+# GoReleaser configuration for helm-oss
+# https://goreleaser.com
+
+version: 2
+
+before:
+  hooks:
+    # Run tests before building
+    - go test ./...
+
+builds:
+  - id: helm-oss
+    main: ./cmd/helm-oss
+    binary: helm-oss
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+      - arm
+    goarm:
+      - "7"
+    ignore:
+      # Windows on ARM is not common
+      - goos: windows
+        goarch: arm64
+      - goos: windows
+        goarch: arm
+    ldflags:
+      - -s -w
+      - -X main.version={{.Version}}
+    flags:
+      - -trimpath
+
+archives:
+  - id: helm-oss
+    format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- .Version }}_
+      {{- .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - LICENSE
+      - README.md
+      - NOTICE
+      - plugin.yaml
+
+signs:
+  - cmd: gpg
+    args:
+      - --batch
+      - --local-user
+      - "{{ .Env.GPG_FINGERPRINT }}"
+      - --output
+      - "${signature}"
+      - --detach-sign
+      - "${artifact}"
+    artifacts: checksum
+    signature: "${artifact}.sig"
+
+dockers:
+  - image_templates:
+      - "timozer/helm-oss:{{ .Version }}-amd64"
+      - "timozer/helm-oss:latest-amd64"
+    use: buildx
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/amd64"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source={{.GitURL}}"
+      - "--build-arg=PLUGIN_VERSION={{.Version}}"
+      - "--build-arg=BUILD_DATE={{.Date}}"
+      - "--build-arg=VCS_REF={{.ShortCommit}}"
+    goos: linux
+    goarch: amd64
+
+  - image_templates:
+      - "timozer/helm-oss:{{ .Version }}-arm64"
+      - "timozer/helm-oss:latest-arm64"
+    use: buildx
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/arm64"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.source={{.GitURL}}"
+      - "--build-arg=PLUGIN_VERSION={{.Version}}"
+      - "--build-arg=BUILD_DATE={{.Date}}"
+      - "--build-arg=VCS_REF={{.ShortCommit}}"
+    goos: linux
+    goarch: arm64
+
+docker_manifests:
+  - name_template: "timozer/helm-oss:{{ .Version }}"
+    image_templates:
+      - "timozer/helm-oss:{{ .Version }}-amd64"
+      - "timozer/helm-oss:{{ .Version }}-arm64"
+
+  - name_template: "timozer/helm-oss:latest"
+    image_templates:
+      - "timozer/helm-oss:latest-amd64"
+      - "timozer/helm-oss:latest-arm64"
+
+checksum:
+  name_template: 'checksums.txt'
+  algorithm: sha256
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - '^chore:'
+      - '^ci:'
+  groups:
+    - title: Features
+      regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
+      order: 0
+    - title: 'Bug fixes'
+      regexp: '^.*?fix(\([[:word:]]+\))??!?:.+$'
+      order: 1
+    - title: 'Performance improvements'
+      regexp: '^.*?perf(\([[:word:]]+\))??!?:.+$'
+      order: 2
+    - title: Others
+      order: 999
+
+release:
+  github:
+    owner: Timozer
+    name: helm-oss
+  draft: false
+  prerelease: auto
+  mode: replace
+  header: |
+    ## helm-oss {{ .Tag }}
+    
+    Release of helm-oss version {{ .Tag }}.
+    
+    ### Installation
+    
+    ```bash
+    helm plugin install https://github.com/Timozer/helm-oss.git --version {{ .Tag }}
+    ```
+    
+    ### What's Changed
+  footer: |
+    **Full Changelog**: https://github.com/Timozer/helm-oss/compare/{{ .PreviousTag }}...{{ .Tag }}
+    
+    ---
+    
+    Based on [helm-s3](https://github.com/hypnoglow/helm-s3)
+
+# Announce the release
+# announce:
+#   skip: '{{gt .Patch 0}}'  # Skip patch releases

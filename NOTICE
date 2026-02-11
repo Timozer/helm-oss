@@ -1,0 +1,30 @@
+# NOTICE
+
+This project (helm-oss) is a derivative work based on helm-s3.
+
+## Original Project
+
+- **Project**: helm-s3
+- **Author**: Igor Zibarev
+- **Repository**: https://github.com/hypnoglow/helm-s3
+- **License**: MIT License
+- **Copyright**: Copyright (c) 2017 Igor Zibarev
+
+## Modifications
+
+This project has been modified to support Alibaba Cloud OSS instead of AWS S3:
+
+- Replaced AWS S3 SDK with Alibaba Cloud OSS SDK v2
+- Updated all S3-specific code to work with OSS
+- Modified command descriptions and documentation
+- Renamed project from helm-s3 to helm-oss
+
+## License
+
+Both the original work and this modified work are licensed under the MIT License.
+See the LICENSE file for the full license text.
+
+## Acknowledgments
+
+We are grateful to Igor Zibarev and all contributors to the helm-s3 project
+for creating the foundation upon which this project is built.

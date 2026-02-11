@@ -1,0 +1,14 @@
+/.claude/
+/bin/*
+/releases
+/vendor
+tmp
+
+.env
+coverage.txt
+
+.idea
+*.iml
+e2e.test
+helm-oss
+node_modules/

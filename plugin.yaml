@@ -1,0 +1,13 @@
+name: "oss"
+version: "0.0.1"
+usage: "Manage chart repositories on Alibaba Cloud OSS"
+description: |-
+  Provides Alibaba Cloud OSS protocol support for charts and repos. https://github.com/Timozer/helm-oss
+command: "$HELM_PLUGIN_DIR/bin/helm-oss"
+downloaders:
+- command: "bin/helm-oss download"
+  protocols:
+    - "oss"
+hooks:
+  install: "cd $HELM_PLUGIN_DIR; ./scripts/install.sh"
+  update: "cd $HELM_PLUGIN_DIR; ./scripts/install.sh"
