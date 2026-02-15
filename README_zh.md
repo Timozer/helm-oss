@@ -22,6 +22,7 @@
   - [初始化](#初始化)
   - [推送](#推送)
   - [删除](#删除)
+  - [下载](#下载)
   - [重建索引](#重建索引)
 - [卸载](#卸载)
 - [高级功能](#高级功能)
@@ -111,6 +112,14 @@ helm oss push --force ./mychart-0.1.0.tgz oss://my-bucket/charts
 
 ```bash
 helm oss delete mychart --version 0.1.0 oss://my-bucket/charts
+```
+
+### 下载
+
+要从仓库中下载 Chart：
+
+```bash
+helm oss download oss://my-bucket/charts/mychart-0.1.0.tgz
 ```
 
 ### 重建索引

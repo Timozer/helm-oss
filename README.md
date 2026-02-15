@@ -22,6 +22,7 @@ The plugin supports Helm v3.
   - [Init](#init)
   - [Push](#push)
   - [Delete](#delete)
+  - [Download](#download)
   - [Reindex](#reindex)
 - [Uninstall](#uninstall)
 - [Advanced Features](#advanced-features)
@@ -111,6 +112,14 @@ To delete a specific chart version from the repository:
 
 ```bash
 helm oss delete mychart --version 0.1.0 oss://my-bucket/charts
+```
+
+### Download
+
+To download a chart from the repository:
+
+```bash
+helm oss download oss://my-bucket/charts/mychart-0.1.0.tgz
 ```
 
 ### Reindex

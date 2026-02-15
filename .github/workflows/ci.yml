@@ -93,7 +93,7 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: false
-          tags: timozer/helm-oss:test
+          tags: zhenyuwang94/helm-oss:test
           build-args: |
             PLUGIN_VERSION=test
             BUILD_DATE=${{ github.event.head_commit.timestamp }}
