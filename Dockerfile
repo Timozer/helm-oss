@@ -9,13 +9,15 @@ RUN apk add --no-cache git
 
 WORKDIR /workspace/helm-oss
 
+COPY go.mod go.sum ./
+RUN go mod download
+
 COPY . .
 
 RUN CGO_ENABLED=0 \
     go build  \
     -trimpath \
-    -mod=vendor \
-    -ldflags "-X main.version=${PLUGIN_VERSION}" \
+    -ldflags "-s -w -X main.version=${PLUGIN_VERSION}" \
     -o bin/helm-oss \
     ./cmd/helm-oss
 
@@ -43,7 +45,8 @@ COPY --from=build /workspace/helm-oss/plugin.yaml.fixed /root/.helm/cache/plugin
 COPY --from=build /workspace/helm-oss/bin/helm-oss /root/.helm/cache/plugins/helm-oss/bin/helm-oss
 
 RUN mkdir -p /root/.helm/plugins \
-    && helm plugin install /root/.helm/cache/plugins/helm-oss
+    && helm plugin install /root/.helm/cache/plugins/helm-oss \
+    && rm -rf /root/.helm/cache/plugins/helm-oss
 
 ENTRYPOINT []
 CMD []

@@ -1,6 +1,10 @@
 # helm-oss
 
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/Timozer/helm-oss)](https://github.com/Timozer/helm-oss/releases)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Timozer/helm-oss)](https://goreportcard.com/report/github.com/Timozer/helm-oss)
+[![CI](https://github.com/Timozer/helm-oss/actions/workflows/ci.yml/badge.svg)](https://github.com/Timozer/helm-oss/actions/workflows/ci.yml)
 [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/helm-oss)](https://artifacthub.io/packages/search?repo=helm-oss)
 
 [English](README.md) | 中文
 
@@ -8,39 +12,52 @@
 
 > **基于 [helm-s3](https://github.com/hypnoglow/helm-s3)** - 本项目是 helm-s3 的分叉版本，修改为支持阿里云 OSS 而非 AWS S3。
 
-这允许您拥有托管在阿里云 OSS 上的私有或公共 Helm Chart 仓库。
+这允许您在阿里云 OSS 上托管私有或公共 Helm Chart 仓库。
 
 该插件支持 Helm v3。
 
+## 赞助
+
+如果您觉得本项目对您有帮助，欢迎打赏一杯咖啡！
+
+|                       WeChat Pay                       |                         Alipay                         |                         PayPal                         |
+| :----------------------------------------------------: | :----------------------------------------------------: | :----------------------------------------------------: |
+| <img src="docs/images/sponsor/wechat.jpg" width="200"> | <img src="docs/images/sponsor/alipay.jpg" width="200"> | <img src="docs/images/sponsor/paypal.jpg" width="200"> |
+
+*请在转账时备注 `helm-oss`，谢谢您的支持！*
+
 ## 目录
 
-- [安装](#安装)
-  - [Docker 镜像](#docker-镜像)
-- [配置](#配置)
-  - [OSS 访问凭证](#oss-访问凭证)
-- [使用](#使用)
-  - [初始化](#初始化)
-  - [推送](#推送)
-  - [删除](#删除)
-  - [重建索引](#重建索引)
-- [卸载](#卸载)
-- [高级功能](#高级功能)
-  - [相对 Chart URL](#相对-chart-url)
-  - [通过 HTTP 提供 Chart](#通过-http-提供-chart)
-- [文档](#文档)
-- [致谢](#致谢)
-- [贡献](#贡献)
-- [许可证](#许可证)
+- [helm-oss](#helm-oss)
+  - [目录](#目录)
+  - [安装](#安装)
+    - [Docker 镜像](#docker-镜像)
+  - [配置](#配置)
+    - [OSS 访问凭证](#oss-访问凭证)
+  - [使用](#使用)
+    - [初始化](#初始化)
+    - [推送](#推送)
+    - [删除](#删除)
+    - [下载](#下载)
+    - [重建索引](#重建索引)
+  - [卸载](#卸载)
+  - [高级功能](#高级功能)
+    - [相对 Chart URL](#相对-chart-url)
+    - [通过 HTTP 提供 Chart](#通过-http-提供-chart)
+  - [文档](#文档)
+  - [致谢](#致谢)
+  - [贡献](#贡献)
+  - [许可证](#许可证)
 
 ## 安装
 
-安装非常简单：
+安装最新版本：
 
 ```bash
 helm plugin install https://github.com/Timozer/helm-oss.git
 ```
 
-您可以安装特定的发布版本：
+安装特定版本：
 
 ```bash
 helm plugin install https://github.com/Timozer/helm-oss.git --version 0.1.0
@@ -50,7 +67,13 @@ helm plugin install https://github.com/Timozer/helm-oss.git --version 0.1.0
 
 ### Docker 镜像
 
-该插件也以 Docker 镜像形式分发。您可以自己构建镜像：
+该插件也以 Docker 镜像形式分发。您可以从 [Docker Hub](https://hub.docker.com/r/zhenyuwang94/helm-oss) 拉取镜像：
+
+```bash
+docker pull zhenyuwang94/helm-oss:latest
+```
+
+或者您可以自己构建镜像：
 
 ```bash
 docker build -t helm-oss:latest .
@@ -68,16 +91,32 @@ docker build -t helm-oss:latest .
 export HELM_OSS_ACCESS_KEY_ID="your-access-key-id"
 export HELM_OSS_ACCESS_KEY_SECRET="your-access-key-secret"
 export HELM_OSS_REGION="oss-cn-hangzhou"
+export HELM_OSS_ENDPOINT="https://oss-cn-hangzhou.aliyuncs.com"
 ```
 
 可选配置：
 
 ```bash
-export HELM_OSS_ENDPOINT="https://oss-cn-hangzhou.aliyuncs.com"
 export HELM_OSS_SESSION_TOKEN="your-session-token"  # 用于 STS
 ```
 
 为了最大限度地减少安全问题，请记住正确配置您的 RAM 用户策略。例如，可以设置为用户仅提供读取访问权限，而为构建和推送 Chart 到仓库的 CI 提供写入访问权限。
+
+### 配置文件
+
+您也可以使用位于 `~/.config/helm_plugin_oss.yaml` 的 YAML 文件进行配置。
+
+示例 `~/.config/helm_plugin_oss.yaml`:
+
+```yaml
+endpoint: "https://oss-cn-hangzhou.aliyuncs.com"
+region: "oss-cn-hangzhou"
+accessKeyID: "your-access-key-id"
+accessKeySecret: "your-access-key-secret"
+# sessionToken: "your-session-token" # 可选，用于 STS
+```
+
+> **注意**：环境变量的优先级高于配置文件。
 
 ## 使用
 
@@ -113,6 +152,14 @@ helm oss push --force ./mychart-0.1.0.tgz oss://my-bucket/charts
 helm oss delete mychart --version 0.1.0 oss://my-bucket/charts
 ```
 
+### 下载
+
+要从仓库中下载 Chart：
+
+```bash
+helm pull oss://my-bucket/charts/mychart-0.1.0.tgz
+```
+
 ### 重建索引
 
 如果您的仓库因某种原因变得不一致或损坏，您可以使用 reindex 重建索引：
@@ -133,16 +180,7 @@ helm plugin uninstall oss
 
 ### 相对 Chart URL
 
-默认情况下，`helm oss push` 在 `index.yaml` 中生成绝对 URL。这意味着 Chart URL 将直接指向 OSS：
-
-```yaml
-entries:
-  mychart:
-  - urls:
-    - oss://my-bucket/charts/mychart-0.1.0.tgz
-```
-
-然而，插件现在**总是使用相对 URL**，以支持直接 OSS 访问和基于 HTTP 的访问（例如，通过 CDN）：
+插件**使用相对 URL**，以支持直接 OSS 访问和基于 HTTP 的访问（例如，通过 CDN）：
 
 ```yaml
 entries:
@@ -151,7 +189,7 @@ entries:
     - mychart-0.1.0.tgz
 ```
 
-这允许您：
+这允您：
 1. 通过 OSS 插件直接访问 Chart：`helm pull oss://my-bucket/charts/mychart`
 2. 通过 HTTP/CDN 访问 Chart：`helm pull https://my-cdn.com/charts/mychart`
 
@@ -185,7 +223,7 @@ helm install myrelease my-charts/mychart
 
 ## 致谢
 
-本项目基于 [Igor Zibarev](https://github.com/hypnoglow) 的 [helm-s3](https://github.com/hypnoglow/helm-s3)。我们非常感谢他们出色的工作，使本项目成为可能。
+本项目基于 [Igor Zibarev](https://github.com/hypnoglow) 的 [helm-s3](https://github.com/hypnoglow/helm-s3)。非常感谢他们出色的工作。
 
 与 helm-s3 的主要区别：
 - 使用阿里云 OSS SDK v2 替代 AWS S3 SDK
@@ -205,4 +243,4 @@ MIT 许可证 - 详情请见 [LICENSE](LICENSE) 文件。
 ---
 
 **Original work**: Copyright (c) 2017 Igor Zibarev (helm-s3)  
-**Modified work**: Copyright (c) 2024-2026 Timozer (helm-oss)
+**Modified work**: Copyright (c) 2026 Timozer (helm-oss)

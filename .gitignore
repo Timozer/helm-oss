@@ -12,3 +12,4 @@ coverage.txt
 e2e.test
 helm-oss
 node_modules/
+.DS_Store

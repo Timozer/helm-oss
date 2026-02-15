@@ -43,8 +43,7 @@ archives:
       {{ .ProjectName }}_
       {{- .Version }}_
       {{- .Os }}_
-      {{- if eq .Arch "amd64" }}x86_64
-      {{- else if eq .Arch "386" }}i386
+      {{- if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
       {{- if .Arm }}v{{ .Arm }}{{ end }}
     format_overrides:
@@ -71,8 +70,8 @@ signs:
 
 dockers:
   - image_templates:
-      - "timozer/helm-oss:{{ .Version }}-amd64"
-      - "timozer/helm-oss:latest-amd64"
+      - "zhenyuwang94/helm-oss:{{ .Version }}-amd64"
+      - "zhenyuwang94/helm-oss:latest-amd64"
     use: buildx
     dockerfile: Dockerfile
     build_flag_templates:
@@ -87,10 +86,18 @@ dockers:
       - "--build-arg=VCS_REF={{.ShortCommit}}"
     goos: linux
     goarch: amd64
+    extra_files:
+      - go.mod
+      - go.sum
+      - cmd
+      - internal
+      - plugin.yaml
+      - LICENSE
+      - NOTICE
 
   - image_templates:
-      - "timozer/helm-oss:{{ .Version }}-arm64"
-      - "timozer/helm-oss:latest-arm64"
+      - "zhenyuwang94/helm-oss:{{ .Version }}-arm64"
+      - "zhenyuwang94/helm-oss:latest-arm64"
     use: buildx
     dockerfile: Dockerfile
     build_flag_templates:
@@ -105,17 +112,25 @@ dockers:
       - "--build-arg=VCS_REF={{.ShortCommit}}"
     goos: linux
     goarch: arm64
+    extra_files:
+      - go.mod
+      - go.sum
+      - cmd
+      - internal
+      - plugin.yaml
+      - LICENSE
+      - NOTICE
 
 docker_manifests:
-  - name_template: "timozer/helm-oss:{{ .Version }}"
+  - name_template: "zhenyuwang94/helm-oss:{{ .Version }}"
     image_templates:
-      - "timozer/helm-oss:{{ .Version }}-amd64"
-      - "timozer/helm-oss:{{ .Version }}-arm64"
+      - "zhenyuwang94/helm-oss:{{ .Version }}-amd64"
+      - "zhenyuwang94/helm-oss:{{ .Version }}-arm64"
 
-  - name_template: "timozer/helm-oss:latest"
+  - name_template: "zhenyuwang94/helm-oss:latest"
     image_templates:
-      - "timozer/helm-oss:latest-amd64"
-      - "timozer/helm-oss:latest-arm64"
+      - "zhenyuwang94/helm-oss:latest-amd64"
+      - "zhenyuwang94/helm-oss:latest-arm64"
 
 checksum:
   name_template: 'checksums.txt'

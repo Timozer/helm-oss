@@ -1,0 +1,7 @@
+# Artifact Hub repository metadata file
+# See: https://github.com/artifacthub/hub/blob/master/docs/metadata/artifacthub-repo.yml
+
+repositoryID: fbda8784-de98-4a3c-ade6-99b9762b71d2
+owners:
+  - name: Timozer
+    email: zhenyuwang94@gmail.com
