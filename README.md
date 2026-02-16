@@ -3,10 +3,10 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/Timozer/helm-oss)](https://github.com/Timozer/helm-oss/releases)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Timozer/helm-oss)](https://goreportcard.com/report/github.com/Timozer/helm-oss)
 [![CI](https://github.com/Timozer/helm-oss/actions/workflows/ci.yml/badge.svg)](https://github.com/Timozer/helm-oss/actions/workflows/ci.yml)
-[![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/Timozer/helm-oss/blob/main/LICENSE)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/helm-oss)](https://artifacthub.io/packages/search?repo=helm-oss)
 
-English | [中文](README_zh.md)
+English | [中文](https://github.com/Timozer/helm-oss/blob/main/README_zh.md)
 
 **helm-oss** is a Helm plugin that provides Alibaba Cloud OSS protocol support.
 
@@ -20,9 +20,9 @@ The plugin supports Helm v3.
 
 If you find this project useful, you can buy me a coffee!
 
-|                       WeChat Pay                       |                         Alipay                         |                         PayPal                         |
-| :----------------------------------------------------: | :----------------------------------------------------: | :----------------------------------------------------: |
-| <img src="docs/images/sponsor/wechat.jpg" width="200"> | <img src="docs/images/sponsor/alipay.jpg" width="200"> | <img src="docs/images/sponsor/paypal.jpg" width="200"> |
+|                                                   WeChat Pay                                                   |                                                     Alipay                                                     |                                                     PayPal                                                     |
+| :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: |
+| <img src="https://raw.githubusercontent.com/Timozer/helm-oss/main/docs/images/sponsor/wechat.jpg" width="200"> | <img src="https://raw.githubusercontent.com/Timozer/helm-oss/main/docs/images/sponsor/alipay.jpg" width="200"> | <img src="https://raw.githubusercontent.com/Timozer/helm-oss/main/docs/images/sponsor/paypal.jpg" width="200"> |
 
 *Please add a remark `helm-oss` when transferring, thank you for your support!*
 
@@ -216,10 +216,10 @@ helm install myrelease my-charts/mychart
 
 ## Documentation
 
-- **English**: [docs/en/](docs/en/)
-  - [Development Guide](docs/en/DEVELOPMENT.md)
-- **中文**: [docs/zh/](docs/zh/)
-  - [开发指南](docs/zh/DEVELOPMENT.md)
+- **English**: [docs/en/](https://github.com/Timozer/helm-oss/blob/main/docs/en/)
+  - [Development Guide](https://github.com/Timozer/helm-oss/blob/main/docs/en/DEVELOPMENT.md)
+- **中文**: [docs/zh/](https://github.com/Timozer/helm-oss/blob/main/docs/zh/)
+  - [开发指南](https://github.com/Timozer/helm-oss/blob/main/docs/zh/DEVELOPMENT.md)
 
 ## Acknowledgments
 
@@ -236,7 +236,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MIT License - see [LICENSE](LICENSE) file for details.
+MIT License - see [LICENSE](https://github.com/Timozer/helm-oss/blob/main/LICENSE) file for details.
 
 This project includes code from [helm-s3](https://github.com/hypnoglow/helm-s3), which is also licensed under the MIT License.
 

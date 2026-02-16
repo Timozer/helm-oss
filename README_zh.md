@@ -6,7 +6,7 @@
 [![License MIT](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/helm-oss)](https://artifacthub.io/packages/search?repo=helm-oss)
 
-[English](README.md) | 中文
+[English](https://github.com/Timozer/helm-oss/blob/main/README.md) | 中文
 
 **helm-oss** 是一个提供阿里云 OSS 协议支持的 Helm 插件。
 
@@ -20,9 +20,9 @@
 
 如果您觉得本项目对您有帮助，欢迎打赏一杯咖啡！
 
-|                       WeChat Pay                       |                         Alipay                         |                         PayPal                         |
-| :----------------------------------------------------: | :----------------------------------------------------: | :----------------------------------------------------: |
-| <img src="docs/images/sponsor/wechat.jpg" width="200"> | <img src="docs/images/sponsor/alipay.jpg" width="200"> | <img src="docs/images/sponsor/paypal.jpg" width="200"> |
+|                                                   WeChat Pay                                                   |                                                     Alipay                                                     |                                                     PayPal                                                     |
+| :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: |
+| <img src="https://raw.githubusercontent.com/Timozer/helm-oss/main/docs/images/sponsor/wechat.jpg" width="200"> | <img src="https://raw.githubusercontent.com/Timozer/helm-oss/main/docs/images/sponsor/alipay.jpg" width="200"> | <img src="https://raw.githubusercontent.com/Timozer/helm-oss/main/docs/images/sponsor/paypal.jpg" width="200"> |
 
 *请在转账时备注 `helm-oss`，谢谢您的支持！*
 
@@ -216,10 +216,10 @@ helm install myrelease my-charts/mychart
 
 ## 文档
 
-- **English**: [docs/en/](docs/en/)
-  - [Development Guide](docs/en/DEVELOPMENT.md)
-- **中文**: [docs/zh/](docs/zh/)
-  - [开发指南](docs/zh/DEVELOPMENT.md)
+- **English**: [docs/en/](https://github.com/Timozer/helm-oss/blob/main/docs/en/)
+  - [Development Guide](https://github.com/Timozer/helm-oss/blob/main/docs/en/DEVELOPMENT.md)
+- **中文**: [docs/zh/](https://github.com/Timozer/helm-oss/blob/main/docs/zh/)
+  - [开发指南](https://github.com/Timozer/helm-oss/blob/main/docs/zh/DEVELOPMENT.md)
 
 ## 致谢
 
