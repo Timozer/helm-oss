@@ -65,7 +65,7 @@ initArch
 initOS
 
 binary_url="https://github.com/${PROJECT_GH}/releases/download/v${version}/${PROJECT_NAME}_${version}_${platform}_${arch}.tar.gz"
-checksum_url="https://github.com/${PROJECT_GH}/releases/download/v${version}/${PROJECT_NAME}_${version}_checksums.txt"
+checksum_url="https://github.com/${PROJECT_GH}/releases/download/v${version}/checksums.txt"
 
 mkdir -p "releases"
 binary_filename="releases/v${version}.tar.gz"
@@ -74,8 +74,8 @@ checksums_filename="releases/v${version}_checksums.txt"
 # Download binary and checksums files.
 (
     if command -v curl >/dev/null 2>&1; then
-        curl -sSL "${binary_url}" -o "${binary_filename}"
-        curl -sSL "${checksum_url}" -o "${checksums_filename}"
+        curl -sSLf "${binary_url}" -o "${binary_filename}"
+        curl -sSLf "${checksum_url}" -o "${checksums_filename}"
     elif command -v wget >/dev/null 2>&1; then
         wget -q "${binary_url}" -O "${binary_filename}"
         wget -q "${checksum_url}" -O "${checksums_filename}"
