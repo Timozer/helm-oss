@@ -99,4 +99,6 @@ checksums_filename="releases/v${version}_checksums.txt"
 )
 
 # Unpack the binary.
-tar xzf "${binary_filename}" "bin/helm-oss${binary_extension}"
+mkdir -p bin
+tar xzf "${binary_filename}" -C "releases"
+mv "releases/helm-oss${binary_extension}" "bin/helm-oss${binary_extension}"
