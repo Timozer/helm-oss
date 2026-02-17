@@ -1,5 +1,5 @@
 name: "oss"
-version: "0.0.5"
+version: "0.0.6"
 usage: "Manage chart repositories on Alibaba Cloud OSS"
 description: |-
   Provides Alibaba Cloud OSS protocol support for charts and repos. https://github.com/Timozer/helm-oss
